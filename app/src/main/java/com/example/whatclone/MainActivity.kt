@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Hallo Jens")
+                    Greeting("Hallo Jens", 0.0f)
                 }
             }
         }
@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
+fun Greeting(name: String, cps: Float) {
     var number: Int by remember { mutableStateOf(0) }
     var startTime: LocalDateTime? by remember { mutableStateOf(null) }
     var remainingTimeText: String by remember {
@@ -55,8 +55,9 @@ fun Greeting(name: String) {
             Text(text = remainingTimeText)
         }
 
-        Text(number.toString())
-        Text(text = "cps : 10,58/s")
+        var cps = number / remainingTimeText.toInt()
+
+        Text(text = "$cps")
         Button(onClick = {
             number = 0
             startTime = null
@@ -72,7 +73,6 @@ fun Greeting(name: String) {
 fun calculateRemainingTime(t1: LocalDateTime?): Long {
     if (t1 == null) return -1
     return ChronoUnit.SECONDS.between(t1, LocalDateTime.now())
-
 }
 
 
@@ -80,6 +80,6 @@ fun calculateRemainingTime(t1: LocalDateTime?): Long {
 @Composable
 fun DefaultPreview() {
     WhatCloneTheme {
-        Greeting("Android")
+        Greeting("Android", 0.0f)
     }
 }
